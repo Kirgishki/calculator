@@ -20,9 +20,9 @@ function operate(operator, firstNum, secNum){
             return add(firstNum, secNum);
         case "-":
             return subtract(firstNum, secNum);
-        case "*":
+        case "x":
             return multiply(firstNum, secNum);
-        case "/":
+        case "÷":
             return divide(firstNum, secNum);
         default:
             break;
@@ -34,8 +34,14 @@ const inputDisplay = document.querySelector("#userInput");
 const numbersCalc = document.querySelectorAll(".number");
 const btnClearAll = document.querySelector("#btnAllClear");
 const btnDelete = document.querySelector("#btnDelete");
+const operators = document.querySelectorAll(".operand");
+const btnEqual = document.querySelector("#btnEqual");
 
-
+var resetScreen = false;
+var resetAllScreens = false;
+var firstValue = 0;
+var secondValue = 0;
+var operandValue = "";
 
 Array.from(numbersCalc).forEach(num => {
     num.addEventListener('click', () => {
@@ -43,24 +49,72 @@ Array.from(numbersCalc).forEach(num => {
     });
 });
 
+Array.from(operators).forEach(operand => {
+    operand.addEventListener('click', () => {
+        if(inputDisplay.innerText == ""){
+            operandValue = operand.innerText;
+            firstValue = resultDisplay.innerText;
+            secondValue = resultDisplay.innerText;
+            inputDisplay.innerText = firstValue + " " + operandValue;
+        }else if(inputDisplay.textContent.split(" ").length == 2){
+            secondValue = resultDisplay.innerText;
+            firstValue = displayResult();
+            operandValue = operand.innerText;
+            inputDisplay.innerText = firstValue + " " + operandValue;
+        }else if(inputDisplay.innerText.split(" ").length > 2){
+            operandValue = operand.innerText;
+            inputDisplay.innerText = firstValue + " " + operandValue;
+        }
+        resetScreen = true;
+    });
+});
+
+btnEqual.addEventListener('click', () => {
+    if(inputDisplay.innerText == ""){
+        return;
+    }else if(inputDisplay.textContent.split(" ").length == 2){
+        secondValue = resultDisplay.innerText;
+        inputDisplay.innerText = firstValue + " " + operandValue + " " + secondValue + " =";
+        firstValue = displayResult();
+    }else if(inputDisplay.innerText.split(" ").length > 2){
+        return;
+    }
+});
+
 
 
 btnClearAll.addEventListener('click', clearDisplay);
 btnDelete.addEventListener('click', deleteNum);
 
+function displayResult(){
+    let result = operate(operandValue, firstValue, secondValue);
+    resultDisplay.innerText = result;
+    return result;
+}
+
 function displayClickedNumber(numValue){
-    if(resultDisplay.textContent == "0" && numValue == 0){
-        resultDisplay.textContent == 0;
+    if(resetScreen){
+        resultDisplay.innerText = '0';
+        resetScreen = false;
+    }else if(resetAllScreens){
+        clearDisplay();
+        resetAllScreens = false;
+    }
+    if(resultDisplay.innerText == "0" && numValue == 0){
+        resultDisplay.innerText == 0;
         return;
     }else if(resultDisplay.innerText == "0" && numValue != "."){
-        resultDisplay.textContent = "";
+        resultDisplay.innerText = "";
     }else if(resultDisplay.innerText.includes('.') && numValue == "."){
         return;
     }
-    resultDisplay.textContent += numValue;
+    resultDisplay.innerText += numValue;
 }
 
 function clearDisplay(){
+    firstValue = 0;
+    secondValue = 0;
+    operandValue = "";
     resultDisplay.innerText = 0;
     inputDisplay.innerText = "";
 }
