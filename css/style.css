@@ -56,6 +56,9 @@ main{
     font-size: 28px;
     color: rgb(44, 142, 199);
 }
+#buttons button:hover{
+    transform: scale(0.98);
+}
 #btnAllClear{
     grid-column: span 2;
 }
