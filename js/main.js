@@ -57,10 +57,17 @@ Array.from(operators).forEach(operand => {
             secondValue = resultDisplay.innerText;
             inputDisplay.innerText = firstValue + " " + operandValue;
         }else if(inputDisplay.textContent.split(" ").length == 2){
-            secondValue = resultDisplay.innerText;
-            firstValue = displayResult();
-            operandValue = operand.innerText;
-            inputDisplay.innerText = firstValue + " " + operandValue;
+            if(!resetScreen){
+                secondValue = resultDisplay.innerText;
+                firstValue = displayResult();
+                operandValue = operand.innerText;
+                inputDisplay.innerText = firstValue + " " + operandValue;
+            }else{
+                operandValue = operand.innerText;
+                inputDisplay.innerText = firstValue + " " + operandValue;
+                secondValue = resultDisplay.innerText;
+            }
+            
         }else if(inputDisplay.innerText.split(" ").length > 2){
             operandValue = operand.innerText;
             inputDisplay.innerText = firstValue + " " + operandValue;
