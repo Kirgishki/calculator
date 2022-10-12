@@ -77,14 +77,10 @@ Array.from(operators).forEach(operand => {
 });
 
 btnEqual.addEventListener('click', () => {
-    if(inputDisplay.innerText == ""){
-        return;
-    }else if(inputDisplay.textContent.split(" ").length == 2){
+    if(inputDisplay.textContent.split(" ").length == 2){
         secondValue = resultDisplay.innerText;
         inputDisplay.innerText = firstValue + " " + operandValue + " " + secondValue + " =";
         firstValue = displayResult();
-    }else if(inputDisplay.innerText.split(" ").length > 2){
-        return;
     }
 });
 
@@ -95,6 +91,9 @@ btnDelete.addEventListener('click', deleteNum);
 
 function displayResult(){
     let result = operate(operandValue, firstValue, secondValue);
+    if(result.toString().includes(".") && result.toString().split(".")[1].length > 2){
+        result = result.toFixed(2);
+    }
     resultDisplay.innerText = result;
     return result;
 }
