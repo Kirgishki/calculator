@@ -84,12 +84,14 @@ btnEqual.addEventListener('click', () => {
     }
 });
 
-
-
 btnClearAll.addEventListener('click', clearDisplay);
 btnDelete.addEventListener('click', deleteNum);
 
 function displayResult(){
+    if(secondValue == 0 && operandValue == "÷"){
+        clearDisplay();
+        alert("Cannot divide by zero");
+    }
     let result = operate(operandValue, firstValue, secondValue);
     if(result.toString().includes(".") && result.toString().split(".")[1].length > 2){
         result = result.toFixed(2);
@@ -126,6 +128,8 @@ function clearDisplay(){
 }
 
 function deleteNum(){
+    resetScreen = false;
+    resetAllScreens = false;
     let lastIndex = resultDisplay.innerText.length - 1;
     resultDisplay.innerText =  resultDisplay.innerText.slice(0, lastIndex); 
     if(lastIndex == 0){
